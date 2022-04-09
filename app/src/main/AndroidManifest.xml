@@ -20,7 +20,7 @@
             android:name=".MyCameraActivity"
             android:label="Take a photo"
             android:exported="false"
-            android:screenOrientation="portrait"
+
             />
         <activity
             android:name=".MainActivity"
