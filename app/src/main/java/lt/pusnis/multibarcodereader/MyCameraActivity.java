@@ -42,7 +42,7 @@ public class MyCameraActivity extends AppCompatActivity {
                 else
                 {
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    //startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
                 }
             }
