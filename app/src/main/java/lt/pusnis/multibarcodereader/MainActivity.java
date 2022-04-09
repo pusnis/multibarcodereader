@@ -17,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setUpBtnTakPhoto();
+        setUpBtnTakePhoto();
     }
 
-    private void setUpBtnTakPhoto() {
+    private void setUpBtnTakePhoto() {
         mBtn = findViewById(R.id.mBtn);
 
         View.OnClickListener listener = new View.OnClickListener() {
@@ -32,5 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+        mBtn.setOnClickListener(listener);
     }
 }
