@@ -62,11 +62,13 @@ public class MyCameraActivity extends AppCompatActivity {
     }
 
     private void galleryAddPic() {
+        writeLog("galleryAddPic() - start; filePAth: "+currentPhotoPath);
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(currentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
+        writeLog("galleryAddPic() - finsh");
     }
 
     private void captureImage() {
@@ -96,7 +98,7 @@ public class MyCameraActivity extends AppCompatActivity {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
-            writeLog("captureImage() - Finish");
+            //writeLog("captureImage() - Finish");
         }
 
 
@@ -117,7 +119,7 @@ public class MyCameraActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
-        writeLog("createImageFile() - finish");
+        writeLog("createImageFile() - finish; filePath: "+currentPhotoPath);
         return image;
     }
 
@@ -127,10 +129,12 @@ public class MyCameraActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(photo);
-            galleryAddPic();
+            //Bitmap photo = (Bitmap) data.getExtras().get("data");
+            //imageView.setImageBitmap(photo);
+
             setPic();
+            galleryAddPic();
+
             writeLog("onActivityResult() - finish");
         }
     }
