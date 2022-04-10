@@ -164,7 +164,6 @@ public class MyCameraActivity extends AppCompatActivity {
     }
 
     private void writeLog(String txt){
-        String txt = state;
         //Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
         Log.i(TAG, txt);
     }
