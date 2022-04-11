@@ -26,6 +26,7 @@ import java.util.Date;
 public class MyCameraActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int RESULT_LOAD_IMG = 2;
     private static final String TAG = "Capture_Save_Show_Image";
     private ImageView imageView;
     private Button captureButton;
@@ -52,7 +53,6 @@ public class MyCameraActivity extends AppCompatActivity {
                 else
                 {
                     captureImage();
-
                 }
             }
         });
@@ -64,12 +64,12 @@ public class MyCameraActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 // select image from gallery
-
-
-
+                selectPhoto();
             }
         });
     }
+
+
 
     private void galleryAddPic() {
         writeLog("galleryAddPic() - start; filePAth: "+currentPhotoPath);
@@ -80,6 +80,13 @@ public class MyCameraActivity extends AppCompatActivity {
         this.sendBroadcast(mediaScanIntent);
         writeLog("galleryAddPic() - finsh");
     }
+
+    private void selectPhoto() {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, REQUEST_IMAGE_CAPTURE);
+        }
+
 
     private void captureImage() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
