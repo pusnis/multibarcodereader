@@ -46,6 +46,7 @@ public class MyCameraActivity extends AppCompatActivity {
 
         imageView = (ImageView)this.findViewById(R.id.imageView1);
         setCaptureButton();
+        setSelectButton()
     }
 
     private void setCaptureButton() {
