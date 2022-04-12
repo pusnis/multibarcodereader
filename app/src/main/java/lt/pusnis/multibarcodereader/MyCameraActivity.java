@@ -68,7 +68,6 @@ public class MyCameraActivity extends AppCompatActivity {
         });
     }
 
-
     private void galleryAddPic() {
         writeLog("galleryAddPic() - start; filePAth: "+currentPhotoPath);
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
