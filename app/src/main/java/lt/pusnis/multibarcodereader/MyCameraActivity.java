@@ -39,38 +39,37 @@ public class MyCameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_camera);
 
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
         }
 
-        imageView = (ImageView)this.findViewById(R.id.imageView1);
+        imageView = (ImageView) this.findViewById(R.id.imageView1);
         setCaptureButton();
-        setSelectButton()
+        setSelectButton();
     }
 
     private void setCaptureButton() {
-        selectButton = (Button) this.findViewById(R.id.button2);
-        selectButton.setOnClickListener(new View.OnClickListener()
-        {
+        selectButton = (Button) this.findViewById(R.id.button1);
+        selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                }
+            public void onClick(View v) {
+                captureImage();
+            }
         });
     }
+
     private void setSelectButton() {
-        captureButton = (Button) this.findViewById(R.id.button1);
-        captureButton.setOnClickListener(new View.OnClickListener()
-        {
+        captureButton = (Button) this.findViewById(R.id.button2);
+        captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 writeLog("Select button clicked");
             }
         });
     }
 
     private void galleryAddPic() {
-        writeLog("galleryAddPic() - start; filePAth: "+currentPhotoPath);
+        writeLog("galleryAddPic() - start; filePAth: " + currentPhotoPath);
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(currentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
@@ -118,7 +117,7 @@ public class MyCameraActivity extends AppCompatActivity {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES ); //
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES); //
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -127,7 +126,7 @@ public class MyCameraActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
-        writeLog("createImageFile() - finish; filePath: "+currentPhotoPath);
+        writeLog("createImageFile() - finish; filePath: " + currentPhotoPath);
         return image;
     }
 
@@ -163,7 +162,7 @@ public class MyCameraActivity extends AppCompatActivity {
         int photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
+        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
@@ -175,7 +174,7 @@ public class MyCameraActivity extends AppCompatActivity {
         writeLog("setPic() - finish");
     }
 
-    private void writeLog(String txt){
+    private void writeLog(String txt) {
         //Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
         Log.i(TAG, txt);
     }
