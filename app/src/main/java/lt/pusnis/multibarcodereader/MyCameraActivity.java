@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,9 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +28,9 @@ public class MyCameraActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final String TAG = "Capture_Save_Show_Image";
     private ImageView imageView;
-    private Button photoButton;
+    private Button captureButton;
+    private Button selectButton;
+
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     String currentPhotoPath;
 
@@ -41,25 +39,35 @@ public class MyCameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_camera);
 
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+        }
+
         imageView = (ImageView)this.findViewById(R.id.imageView1);
-        photoButton = (Button) this.findViewById(R.id.button1);
-        photoButton.setOnClickListener(new View.OnClickListener()
+        setCaptureButton();
+    }
+
+    private void setCaptureButton() {
+        selectButton = (Button) this.findViewById(R.id.button2);
+        selectButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
-            {
-                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+            public void onClick(View v){
                 }
-                else
-                {
-                    captureImage();
-
-                }
+        });
+    }
+    private void setSelectButton() {
+        captureButton = (Button) this.findViewById(R.id.button1);
+        captureButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v){
+                writeLog("Select button clicked");
             }
         });
     }
+
 
     private void galleryAddPic() {
         writeLog("galleryAddPic() - start; filePAth: "+currentPhotoPath);

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Multi Barcode Reader</string>
     <string name="btn_take_a_photo">Select picture</string>
-    <string name="photo">Capture</string>
+    <string name="capture">Capture</string>
+    <string name="photo">Select</string>
 </resources>
