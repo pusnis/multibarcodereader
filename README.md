@@ -9,4 +9,4 @@ Panaudojant Google ML kit barkodų skaitymo paketą nuskaityti kodus į sąršą
 Sukurti SQLite db telefone
 Saugoti nuskaitytus kodaus į db ( kodas, kodo tipas, vaido pavadimas ir vieta, kodo nuskaitymo data ir laikas)
 Sukurti Web REST API duoemnų įkėlimui į mysqldb 
-Exportuoti pasirinktus kodus į mysql db REST API būdu/
+Exportuoti pasirinktus kodus į mysql db REST API būdu.
