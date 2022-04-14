@@ -1,5 +1,6 @@
 package lt.pusnis.multibarcodereader;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -19,10 +20,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.mlkit.vision.barcode.BarcodeScanner;
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
+import com.google.mlkit.vision.barcode.BarcodeScanning;
+import com.google.mlkit.vision.barcode.common.Barcode;
+import com.google.mlkit.vision.common.InputImage;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class MyCameraActivity extends AppCompatActivity {
 
@@ -31,6 +42,7 @@ public class MyCameraActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button captureButton;
     private Button selectButton;
+    InputImage image;
 
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     String currentPhotoPath;
@@ -153,14 +165,56 @@ public class MyCameraActivity extends AppCompatActivity {
             //imageView.setImageBitmap(photo);
             Uri selectedImage = data.getData();
 
-            if ( currentPhotoPath == null){
-//                String prefix = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
-                currentPhotoPath = selectedImage.toString();
+
+
+
+
+
+            try {
+                image = InputImage.fromFilePath(getApplicationContext(), selectedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            //
+
+            getBarCodes();
+
 
             setPic();
             writeLog("onActivityResult() - finish. currentPhotoPath : "+ currentPhotoPath);
         }
+    }
+
+    private void getBarCodes() {
+
+        BarcodeScannerOptions options =
+                new BarcodeScannerOptions.Builder()
+                        .build();
+
+        BarcodeScanner scanner = BarcodeScanning.getClient(options);
+
+        Task<List<Barcode>> result = scanner.process(image)
+                .addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
+                    @Override
+                    public void onSuccess(List<Barcode> barcodes) {
+                        // Task completed successfully
+                        // ...
+                        int i =0;
+                        for (Barcode barkodas:barcodes){
+                            i++;
+                            writeLog("Nuskaitytas kodas: "+i+"." + barkodas.getFormat()+ " : "+barkodas.getDisplayValue());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Task failed with an exception
+                        // ...
+                        writeLog("Klaida : " + e.getMessage());
+                    }
+                });
     }
 
     private void setPic() {
