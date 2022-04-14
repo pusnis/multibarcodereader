@@ -3,6 +3,7 @@ package lt.pusnis.multibarcodereader;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.content.Intent;
@@ -151,9 +152,11 @@ public class MyCameraActivity extends AppCompatActivity {
 
             //Bitmap photo = (Bitmap) data.getExtras().get("data");
             //imageView.setImageBitmap(photo);
+            Uri selectedImage = data.getData();
 
             if ( currentPhotoPath == null){
-                currentPhotoPath = data.getData().getPath();
+//                String prefix = getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString();
+                currentPhotoPath = selectedImage.toString();
             }
 
             setPic();
@@ -185,6 +188,7 @@ public class MyCameraActivity extends AppCompatActivity {
         bmOptions.inPurgeable = true;
 
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        //imageView = null;
         imageView.setImageBitmap(bitmap);
         writeLog("setPic() - finish");
     }
