@@ -63,7 +63,18 @@ public class MyCameraActivity extends AppCompatActivity {
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ///storage/self/primary/Android/data/lt.pusnis.multibarcodereader/files/Pictures/JPEG_20220413_195912_1042563541446792019.jpg
                 writeLog("Select button clicked");
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture", PICK_IMAGE);
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+
+
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                writeLog("Select picture intent opened.");
             }
         });
     }
@@ -107,6 +118,7 @@ public class MyCameraActivity extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
             //writeLog("captureImage() - Finish");
+            galleryAddPic();
         }
 
 
@@ -140,10 +152,12 @@ public class MyCameraActivity extends AppCompatActivity {
             //Bitmap photo = (Bitmap) data.getExtras().get("data");
             //imageView.setImageBitmap(photo);
 
-            setPic();
-            galleryAddPic();
+            if ( currentPhotoPath == null){
+                currentPhotoPath = data.getData().getPath();
+            }
 
-            writeLog("onActivityResult() - finish");
+            setPic();
+            writeLog("onActivityResult() - finish. currentPhotoPath : "+ currentPhotoPath);
         }
     }
 
