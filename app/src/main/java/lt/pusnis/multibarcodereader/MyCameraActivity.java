@@ -1,8 +1,12 @@
 package lt.pusnis.multibarcodereader;
 
+import static android.provider.CalendarContract.CalendarCache.URI;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -38,6 +42,7 @@ import java.util.List;
 public class MyCameraActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_SELECT = 2;
     private static final String TAG = "Capture_Save_Show_Image";
     private ImageView imageView;
     private Button captureButton;
@@ -59,6 +64,7 @@ public class MyCameraActivity extends AppCompatActivity {
         imageView = (ImageView) this.findViewById(R.id.imageView1);
         setCaptureButton();
         setSelectButton();
+
     }
 
     private void setCaptureButton() {
@@ -86,7 +92,7 @@ public class MyCameraActivity extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
 
 
-                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                startActivityForResult(intent, REQUEST_IMAGE_SELECT );
                 writeLog("Select picture intent opened.");
             }
         });
@@ -103,6 +109,31 @@ public class MyCameraActivity extends AppCompatActivity {
     }
 
     private void captureImage() {
+        ImageCapture imageCapture =
+                new ImageCapture.Builder()
+                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
+                        .build();
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        ImageCapture.OutputFileOptions outputFileOptions =
+                new ImageCapture.OutputFileOptions.Builder(new File(imageFileName)).build();
+
+        imageCapture.takePicture(outputFileOptions, cameraExecutor,
+                new ImageCapture.OnImageSavedCallback() {
+                    @Override
+                    public void onImageSaved(ImageCapture.OutputFileResults outputFileResults) {
+                        // insert your code here.
+                    }
+                    @Override
+                    public void onError(ImageCaptureException error) {
+                        // insert your code here.
+                    }
+                }
+        );
+    }
+
+    private void captureImage_old() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
@@ -161,35 +192,33 @@ public class MyCameraActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
+
+            writeLog("onActivityResult() - finish. currentPhotoPath : "+ currentPhotoPath);
+        }
+        if (requestCode == REQUEST_IMAGE_SELECT && resultCode == RESULT_OK) {
+
             //Bitmap photo = (Bitmap) data.getExtras().get("data");
             //imageView.setImageBitmap(photo);
             Uri selectedImage = data.getData();
 
-
-
-
-
-
             try {
                 image = InputImage.fromFilePath(getApplicationContext(), selectedImage);
+                imageView.setImageURI(selectedImage);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            //
-
-            getBarCodes();
-
-
-            setPic();
             writeLog("onActivityResult() - finish. currentPhotoPath : "+ currentPhotoPath);
+
         }
+        getBarCodes();
     }
 
     private void getBarCodes() {
 
         BarcodeScannerOptions options =
                 new BarcodeScannerOptions.Builder()
+                        .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
                         .build();
 
         BarcodeScanner scanner = BarcodeScanning.getClient(options);
@@ -203,7 +232,7 @@ public class MyCameraActivity extends AppCompatActivity {
                         int i =0;
                         for (Barcode barkodas:barcodes){
                             i++;
-                            writeLog("Nuskaitytas kodas: "+i+"." + barkodas.getFormat()+ " : "+barkodas.getDisplayValue());
+                            writeLog("Nuskaitytas kodas: "+i+". " + barkodas.getFormat()+ " : "+barkodas.getDisplayValue());
                         }
                     }
                 })
@@ -217,34 +246,34 @@ public class MyCameraActivity extends AppCompatActivity {
                 });
     }
 
-    private void setPic() {
-        writeLog("setPic() - start");
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-        //imageView = null;
-        imageView.setImageBitmap(bitmap);
-        writeLog("setPic() - finish");
-    }
+//    private void setPic() {
+//        writeLog("setPic() - start");
+//        // Get the dimensions of the View
+//        int targetW = imageView.getWidth();
+//        int targetH = imageView.getHeight();
+//
+//        // Get the dimensions of the bitmap
+//        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//        bmOptions.inJustDecodeBounds = true;
+//
+//        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+//
+//        int photoW = bmOptions.outWidth;
+//        int photoH = bmOptions.outHeight;
+//
+//        // Determine how much to scale down the image
+//        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
+//
+//        // Decode the image file into a Bitmap sized to fill the View
+//        bmOptions.inJustDecodeBounds = false;
+//        bmOptions.inSampleSize = scaleFactor;
+//        bmOptions.inPurgeable = true;
+//
+//        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+//        //imageView = null;
+//        imageView.setImageBitmap(bitmap);
+//        writeLog("setPic() - finish");
+//    }
 
     private void writeLog(String txt) {
         //Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
