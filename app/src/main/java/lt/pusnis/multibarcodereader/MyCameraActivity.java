@@ -5,9 +5,17 @@ import static android.provider.CalendarContract.CalendarCache.URI;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
+import androidx.camera.core.ImageProxy;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
@@ -18,8 +26,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.Size;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +38,7 @@ import android.widget.ImageView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
@@ -38,6 +50,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MyCameraActivity extends AppCompatActivity {
 
@@ -47,7 +60,10 @@ public class MyCameraActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button captureButton;
     private Button selectButton;
-    InputImage image;
+    private InputImage image;
+    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+    private PreviewView previewView;
+
 
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     String currentPhotoPath;
@@ -61,7 +77,8 @@ public class MyCameraActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
         }
 
-        imageView = (ImageView) this.findViewById(R.id.imageView1);
+        //imageView = this.findViewById(R.id.imageView1);
+
         setCaptureButton();
         setSelectButton();
 
@@ -109,28 +126,53 @@ public class MyCameraActivity extends AppCompatActivity {
     }
 
     private void captureImage() {
-        ImageCapture imageCapture =
-                new ImageCapture.Builder()
-                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
-                        .build();
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        ImageCapture.OutputFileOptions outputFileOptions =
-                new ImageCapture.OutputFileOptions.Builder(new File(imageFileName)).build();
+        previewView = this.findViewById(R.id.imageView1);
 
-        imageCapture.takePicture(outputFileOptions, cameraExecutor,
-                new ImageCapture.OnImageSavedCallback() {
-                    @Override
-                    public void onImageSaved(ImageCapture.OutputFileResults outputFileResults) {
-                        // insert your code here.
-                    }
-                    @Override
-                    public void onError(ImageCaptureException error) {
-                        // insert your code here.
-                    }
+        cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+        cameraProviderFuture.addListener(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                    bindImageAnalysis(cameraProvider);
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
                 }
-        );
+            }
+        }, ContextCompat.getMainExecutor(this));
+
+
+
+
+
+
+    }
+
+    private void bindImageAnalysis(@NonNull ProcessCameraProvider cameraProvider) {
+        ImageAnalysis imageAnalysis =
+                new ImageAnalysis.Builder().setTargetResolution(new Size(1280, 720))
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), new ImageAnalysis.Analyzer() {
+            @Override
+            public void analyze(@NonNull ImageProxy image) {
+                image.close();
+            }
+        });
+        OrientationEventListener orientationEventListener = new OrientationEventListener(this) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                //textView.setText(Integer.toString(orientation));
+            }
+        };
+        orientationEventListener.enable();
+        Preview preview = new Preview.Builder().build();
+        CameraSelector cameraSelector = new CameraSelector.Builder()
+                .requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
+        preview.setSurfaceProvider(previewView.getSurfaceProvider());
+        cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector,
+                imageAnalysis, preview);
+
     }
 
     private void captureImage_old() {
@@ -203,7 +245,7 @@ public class MyCameraActivity extends AppCompatActivity {
 
             try {
                 image = InputImage.fromFilePath(getApplicationContext(), selectedImage);
-                imageView.setImageURI(selectedImage);
+//                imageView.setImageURI(selectedImage);
 
             } catch (IOException e) {
                 e.printStackTrace();
