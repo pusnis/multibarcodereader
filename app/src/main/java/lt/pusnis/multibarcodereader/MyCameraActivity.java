@@ -32,14 +32,13 @@ public class MyCameraActivity extends AppCompatActivity {
     private ImageView imageView;
     private InputImage image;
     private Uri selectedImage;
-
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_camera);
+
 
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
