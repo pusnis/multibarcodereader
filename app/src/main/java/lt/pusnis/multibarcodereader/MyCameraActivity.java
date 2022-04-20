@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,13 +34,13 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class MyCameraActivity extends AppCompatActivity {
 
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_IMAGE_SELECT = 2;
+    private static final int REQUEST_IMAGE_SELECT = 1;
     private static final String TAG = "Capture_Save_Show_Image";
     private ImageView imageView;
     private InputImage image;
@@ -60,7 +61,18 @@ public class MyCameraActivity extends AppCompatActivity {
         imageView = (ImageView) this.findViewById(R.id.imageView1);
 
         setSelectButton();
+        setRedBarcodesButton();
 
+    }
+
+    private void setRedBarcodesButton() {
+        Button readButton = (Button) this.findViewById(R.id.button1);
+        readButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBarCodes();
+            }
+        });
     }
 
 
@@ -127,21 +139,17 @@ public class MyCameraActivity extends AppCompatActivity {
             }
             writeLog("onActivityResult() - finish. ");
 
-        } if (  requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK ){
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(bitmap);
-            //image = InputImage.fromBitmap(bitmap,0);
-
-            writeLog(requestCode + " Bitmap.");
         }
-        getBarCodes();
+
     }
 
     private void getBarCodes() {
 
         BarcodeScannerOptions options =
                 new BarcodeScannerOptions.Builder()
-                        .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
+                        .setBarcodeFormats(
+                                Barcode.FORMAT_CODE_39
+                                )
                         .build();
 
         BarcodeScanner scanner = BarcodeScanning.getClient(options);
@@ -150,8 +158,9 @@ public class MyCameraActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
                     @Override
                     public void onSuccess(List<Barcode> barcodes) {
-                        // Task completed successfully
-                        // ...
+                        writeLog("Nuskaityta kodų: "+barcodes.size());
+                        Toast.makeText(getApplicationContext(),"Nuskaityta kodų: "+barcodes.toArray().length,Toast.LENGTH_LONG).show();
+
                         int i =0;
                         for (Barcode barkodas:barcodes){
                             i++;
@@ -168,35 +177,6 @@ public class MyCameraActivity extends AppCompatActivity {
                     }
                 });
     }
-
-//    private void setPic() {
-//        writeLog("setPic() - start");
-//        // Get the dimensions of the View
-//        int targetW = imageView.getWidth();
-//        int targetH = imageView.getHeight();
-//
-//        // Get the dimensions of the bitmap
-//        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-//        bmOptions.inJustDecodeBounds = true;
-//
-//        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-//
-//        int photoW = bmOptions.outWidth;
-//        int photoH = bmOptions.outHeight;
-//
-//        // Determine how much to scale down the image
-//        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
-//
-//        // Decode the image file into a Bitmap sized to fill the View
-//        bmOptions.inJustDecodeBounds = false;
-//        bmOptions.inSampleSize = scaleFactor;
-//        bmOptions.inPurgeable = true;
-//
-//        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-//        //imageView = null;
-//        imageView.setImageBitmap(bitmap);
-//        writeLog("setPic() - finish");
-//    }
 
     private void writeLog(String txt) {
         //Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
