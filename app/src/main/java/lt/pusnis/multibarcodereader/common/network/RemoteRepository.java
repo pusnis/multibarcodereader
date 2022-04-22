@@ -87,6 +87,7 @@ public class RemoteRepository {
         return data;
     }
 
+
     public LiveData<List<MbrFormats>> getAllFormats() {
         final MutableLiveData<List<MbrFormats>> data = new MutableLiveData<>();
         service.getFormatList()

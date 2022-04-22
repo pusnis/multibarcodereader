@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     MaterialButton mBtn;
-    MainViewModel mainViewModel = null;
+    MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +47,19 @@ public class MainActivity extends AppCompatActivity {
         setUpBtnTakePhoto();
 
         Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
-        Log.i(Constants.LOG_TAG,"Pabaiga.");
+        Log.i(Constants.LOG_TAG, "Pabaiga.");
     }
 
     private void setUpObserve(MainViewModel viewModel) {
-        viewModel.getAllFormatsObservable().observe(this, mbrFormats ->
-                Log.i(Constants.LOG_TAG, "___" + mbrFormats));
-    }
+        viewModel.getAllFormatsObservable().observe(
+                this, mbrFormats ->
+                        Log.i(Constants.LOG_TAG, "___" + mbrFormats));
 
+        viewModel.getAllTypesObservable().observe(
+                this, mbrTypes ->
+                        Log.i(Constants.LOG_TAG, "___" + mbrTypes));
+
+    }
 
 
     private void setUpBtnTakePhoto() {
