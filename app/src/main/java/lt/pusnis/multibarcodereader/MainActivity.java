@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpBtnTakePhoto();
 
-        //Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
     }
 
     private void setUpBtnTakePhoto() {

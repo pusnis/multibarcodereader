@@ -107,7 +107,7 @@ public class MyCameraActivity extends AppCompatActivity {
         BarcodeScannerOptions options =
                 new BarcodeScannerOptions.Builder()
                         .setBarcodeFormats(
-                                Barcode.FORMAT_CODE_39
+                                Barcode.FORMAT_ALL_FORMATS
                                 )
                         .build();
 
@@ -123,7 +123,7 @@ public class MyCameraActivity extends AppCompatActivity {
                         int i =0;
                         for (Barcode barkodas:barcodes){
                             i++;
-                            writeLog("Nuskaitytas kodas: "+i+". " + barkodas.getFormat()+ " : "+barkodas.getDisplayValue());
+                            writeLog("Nuskaitytas kodas: "+i+". " + barkodas.getFormat()+ " / " + barkodas.getValueType() +" : "+barkodas.getDisplayValue());
                         }
                     }
                 })
