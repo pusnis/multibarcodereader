@@ -1,6 +1,7 @@
 package lt.pusnis.multibarcodereader;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +20,7 @@ import lt.pusnis.multibarcodereader.common.network.MbrServiceClient;
 import lt.pusnis.multibarcodereader.common.network.RemoteRepository;
 import lt.pusnis.multibarcodereader.response.FormatsResponse;
 import lt.pusnis.multibarcodereader.response.TypesResponse;
+import lt.pusnis.multibarcodereader.viewmodels.MainViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,19 +29,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     MaterialButton mBtn;
+    MainViewModel mainViewModel = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
+
         setUpBtnTakePhoto();
 
         Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
-
-        RemoteRepository remoteRepository = new RemoteRepository();
-        remoteRepository.getAllFormats();
-        remoteRepository.getAllTypes();
 
         Log.i(Constants.LOG_TAG,"Pabaiga.");
     }
