@@ -8,13 +8,13 @@ public class MbrResults {
     @SerializedName("device_id")
     private int device_id;
     @SerializedName("code_format")
-    private int code_format";
+    private int code_format;
     @SerializedName("code_type")
     private int code_type;
     @SerializedName("result")
     private String result;
     @SerializedName("createdAt")
-    private String createdAt";
+    private String createdAt;
     @SerializedName("updatedAt")
     private String updatedAt;
 

@@ -1,8 +1,10 @@
-package lt.pusnis.multibarcodereader.model;
+package lt.pusnis.multibarcodereader.response;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import lt.pusnis.multibarcodereader.model.MbrResults;
 
 public class ResultsResponse {
     @SerializedName("data")

@@ -1,8 +1,10 @@
-package lt.pusnis.multibarcodereader.model;
+package lt.pusnis.multibarcodereader.response;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import lt.pusnis.multibarcodereader.model.MbrFormats;
 
 public class FormatsResponse {
     @SerializedName("data")
@@ -19,7 +21,7 @@ public class FormatsResponse {
     }
 
     public String toString() {
-        return "Users API response [data=" + formatData+ "]";
+        return "API response Formtas [data=" + formatData+ "]";
     }
 }
 
