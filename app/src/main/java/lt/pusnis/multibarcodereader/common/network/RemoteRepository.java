@@ -84,6 +84,7 @@ public class RemoteRepository {
 
             }
         });
+        return data;
     }
 
     public LiveData<List<MbrFormats>> getAllFormats() {
