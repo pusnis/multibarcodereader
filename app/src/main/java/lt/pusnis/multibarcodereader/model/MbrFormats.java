@@ -2,7 +2,7 @@ package lt.pusnis.multibarcodereader.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MbrTypes {
+public class MbrFormats {
     @SerializedName("code_id")
     private int id;
     @SerializedName("description")

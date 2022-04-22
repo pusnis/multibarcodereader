@@ -71,7 +71,7 @@ public class MbrResults {
 
     @Override
     public String toString() {
-        return "mbResult [id=" + id + ", "
+        return "mbrResult [id=" + id + ", "
                 + "device_id=" + device_id
                 + "code_format=" + code_format
                 + "code_type=" + code_type
