@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        setUpObserve();
+        setUpObserve(mainViewModel);
 
 
         setUpBtnTakePhoto();
@@ -50,15 +50,12 @@ public class MainActivity extends AppCompatActivity {
         Log.i(Constants.LOG_TAG,"Pabaiga.");
     }
 
-    private void setUpObserve() {
-        mainViewModel.getAllFormats().observe(this, mbrFormats -> Log.i(Constants.LOG_TAG, "___" + mbrFormats));
+    private void setUpObserve(MainViewModel viewModel) {
+        viewModel.getAllFormatsObservable().observe(this, mbrFormats ->
+                Log.i(Constants.LOG_TAG, "___" + mbrFormats));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mainViewModel.fetchAllFormats();
-    }
+
 
     private void setUpBtnTakePhoto() {
         mBtn = findViewById(R.id.mBtn);
