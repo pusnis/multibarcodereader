@@ -16,6 +16,7 @@ import com.google.android.material.button.MaterialButton;
 import lt.pusnis.multibarcodereader.common.Constants;
 import lt.pusnis.multibarcodereader.common.network.MbrDataService;
 import lt.pusnis.multibarcodereader.common.network.MbrServiceClient;
+import lt.pusnis.multibarcodereader.common.network.RemoteRepository;
 import lt.pusnis.multibarcodereader.response.FormatsResponse;
 import lt.pusnis.multibarcodereader.response.TypesResponse;
 import retrofit2.Call;
@@ -36,47 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
 
-        //prisijungiam prie API
-        Log.i(Constants.LOG_TAG,"Laukiame duomenų.");
-        MbrDataService service =
-                MbrServiceClient.getUserInstance().create(MbrDataService.class);
-
-//        Log.i(Constants.LOG_TAG,"Formatų duomenys.\n");
-//        Call<FormatsResponse> call = service.getFormatList();
-//
-//
-//        Callback<FormatsResponse> callback = new Callback<FormatsResponse>() {
-//            @Override
-//            public void onResponse(Call<FormatsResponse> call, Response<FormatsResponse> response) {
-//                Log.i(Constants.LOG_TAG,""+response.body());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<FormatsResponse> call, Throwable t) {
-//                Log.i(Constants.LOG_TAG,"Failed on retrieve data: "+ t.getMessage());
-//                call.cancel();
-//            }
-//        };
-//
-//        call.enqueue(callback);
-
-        Log.i(Constants.LOG_TAG,"Tipų duomenys. \n");
-        Call<TypesResponse> call = service.getTypeList();
-
-
-        Callback<TypesResponse> callback = new Callback<TypesResponse>() {
-            @Override
-            public void onResponse(Call<TypesResponse> call, Response<TypesResponse> response) {
-                Log.i(Constants.LOG_TAG,""+response.body());
-            }
-
-            @Override
-            public void onFailure(Call<TypesResponse> call, Throwable t) {
-                Log.i(Constants.LOG_TAG,"Failed on retrieve data: "+ t.getMessage());
-            }
-        };
-
-        call.enqueue(callback);
+        RemoteRepository remoteRepository = new RemoteRepository();
+        remoteRepository.getAllFormats();
+        remoteRepository.getAllTypes();
 
         Log.i(Constants.LOG_TAG,"Pabaiga.");
     }
