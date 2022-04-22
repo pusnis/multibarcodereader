@@ -23,15 +23,15 @@ public class RemoteRepository {
         this.service = MbrServiceClient.getUserInstance().create(MbrDataService.class);
     }
 
-    public LiveData<List<MbrFormats>> getFormatList(){
+    public LiveData<List<MbrFormats>> getFormatList() {
 
         MutableLiveData<List<MbrFormats>> data = new MutableLiveData<>();
 
         service.getFormatList()
-                .enqueue (new Callback<FormatsResponse>() {
+                .enqueue(new Callback<FormatsResponse>() {
                     @Override
                     public void onResponse(Call<FormatsResponse> call, Response<FormatsResponse> response) {
-                        if (response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             data.setValue(response.body().getFormatData());
                         }
                     }
@@ -46,15 +46,15 @@ public class RemoteRepository {
         return data;
     }
 
-    public LiveData<List<MbrTypes>> getTypeList(){
+    public LiveData<List<MbrTypes>> getTypeList() {
 
         MutableLiveData<List<MbrTypes>> data = new MutableLiveData<>();
 
         service.getTypeList()
-                .enqueue (new Callback<TypesResponse>() {
+                .enqueue(new Callback<TypesResponse>() {
                     @Override
                     public void onResponse(Call<TypesResponse> call, Response<TypesResponse> response) {
-                        if (response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             data.setValue(response.body().getTypeData());
                         }
                     }
@@ -69,44 +69,39 @@ public class RemoteRepository {
         return data;
     }
 
-    public void getAllFormats(){
-        Log.i(Constants.LOG_TAG,"Formatų duomenys.");
-        Call<FormatsResponse> call = service.getFormatList();
-
-
-        Callback<FormatsResponse> callback = new Callback<FormatsResponse>() {
-            @Override
-            public void onResponse(Call<FormatsResponse> call, Response<FormatsResponse> response) {
-                Log.i(Constants.LOG_TAG,""+response.body());
-            }
-
-            @Override
-            public void onFailure(Call<FormatsResponse> call, Throwable t) {
-                Log.i(Constants.LOG_TAG,"Failed on retrieve data: "+ t.getMessage());
-                call.cancel();
-            }
-        };
-
-        call.enqueue(callback);
-    }
-
-    public void getAllTypes(){
-        Log.i(Constants.LOG_TAG,"Tipų duomenys. \n");
-        Call<TypesResponse> call = service.getTypeList();
-
-
-        Callback<TypesResponse> callback = new Callback<TypesResponse>() {
+    public LiveData<List<MbrTypes>> getAllTypes(){
+        final MutableLiveData<List<MbrTypes>> data = new MutableLiveData<>();
+        service.getTypeList().enqueue(new Callback<TypesResponse>() {
             @Override
             public void onResponse(Call<TypesResponse> call, Response<TypesResponse> response) {
-                Log.i(Constants.LOG_TAG,""+response.body());
+                if (response.isSuccessful()) {
+                    data.postValue(response.body().getTypeData());
+                }
             }
 
             @Override
             public void onFailure(Call<TypesResponse> call, Throwable t) {
-                Log.i(Constants.LOG_TAG,"Failed on retrieve data: "+ t.getMessage());
-            }
-        };
 
-        call.enqueue(callback);
+            }
+        });
+    }
+
+    public LiveData<List<MbrFormats>> getAllFormats() {
+        final MutableLiveData<List<MbrFormats>> data = new MutableLiveData<>();
+        service.getFormatList()
+                .enqueue(new Callback<FormatsResponse>() {
+                    @Override
+                    public void onResponse(Call<FormatsResponse> call, Response<FormatsResponse> response) {
+                        if (response.isSuccessful()){
+                            data.postValue(response.body().getFormatData());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FormatsResponse> call, Throwable t) {
+
+                    }
+                });
+        return data;
     }
 }
