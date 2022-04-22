@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mainViewModel.fetchAllFormats();
-        mainViewModel.fetchAllTypes();
+//        mainViewModel.fetchAllTypes();
 
         setUpBtnTakePhoto();
 
