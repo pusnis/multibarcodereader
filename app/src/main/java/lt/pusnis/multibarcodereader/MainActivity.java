@@ -3,6 +3,7 @@ package lt.pusnis.multibarcodereader;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -34,11 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
     MaterialButton mBtn;
     MainViewModel mainViewModel;
+    RecyclerView recyclerView;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setUpUi();
+
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         setUpObserve(mainViewModel);
@@ -48,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
         Log.i(Constants.LOG_TAG, "Pabaiga.");
+    }
+
+    private void setUpUi() {
+        setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.recycleView);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     private void setUpObserve(MainViewModel viewModel) {
