@@ -41,19 +41,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        mainViewModel.getAllFormats().observe(this, new Observer<List<MbrFormats>>() {
-            @Override
-            public void onChanged(List<MbrFormats> mbrFormats) {
-                Log.i(Constants.LOG_TAG, "" + mbrFormats);
-            }
-        });
-        mainViewModel.fetchAllFormats();
+        setUpObserve();
 
 
         setUpBtnTakePhoto();
 
         Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
         Log.i(Constants.LOG_TAG,"Pabaiga.");
+    }
+
+    private void setUpObserve() {
+        mainViewModel.getAllFormats().observe(this, mbrFormats -> Log.i(Constants.LOG_TAG, "___" + mbrFormats));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainViewModel.fetchAllFormats();
     }
 
     private void setUpBtnTakePhoto() {
