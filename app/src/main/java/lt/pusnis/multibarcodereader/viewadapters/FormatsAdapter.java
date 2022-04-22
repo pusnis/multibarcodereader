@@ -40,8 +40,8 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.codeFormat.setText(""+list.get(position).getId());
-        holder.codeType.setText(""+list.get(position).getId());
+        holder.codeFormat.setText(new StringBuilder().append(list.get(position).getId()));
+        holder.codeType.setText(new StringBuilder().append(list.get(position).getId()));
         holder.codeValue.setText(list.get(position).getDescription());
     }
 
