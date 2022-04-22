@@ -1,6 +1,7 @@
 package lt.pusnis.multibarcodereader;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -14,10 +15,13 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.List;
+
 import lt.pusnis.multibarcodereader.common.Constants;
 import lt.pusnis.multibarcodereader.common.network.MbrDataService;
 import lt.pusnis.multibarcodereader.common.network.MbrServiceClient;
 import lt.pusnis.multibarcodereader.common.network.RemoteRepository;
+import lt.pusnis.multibarcodereader.model.MbrFormats;
 import lt.pusnis.multibarcodereader.response.FormatsResponse;
 import lt.pusnis.multibarcodereader.response.TypesResponse;
 import lt.pusnis.multibarcodereader.viewmodels.MainViewModel;
@@ -37,13 +41,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.getAllFormats().observe(this, new Observer<List<MbrFormats>>() {
+            @Override
+            public void onChanged(List<MbrFormats> mbrFormats) {
+                Log.i(Constants.LOG_TAG, "" + mbrFormats);
+            }
+        });
         mainViewModel.fetchAllFormats();
-//        mainViewModel.fetchAllTypes();
+
 
         setUpBtnTakePhoto();
 
         Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
-
         Log.i(Constants.LOG_TAG,"Pabaiga.");
     }
 
