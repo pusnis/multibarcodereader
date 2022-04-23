@@ -22,6 +22,7 @@ import java.util.List;
 
 import lt.pusnis.multibarcodereader.common.Constants;
 import lt.pusnis.multibarcodereader.model.MbrFormats;
+import lt.pusnis.multibarcodereader.model.MbrResults;
 import lt.pusnis.multibarcodereader.viewadapters.ResultsAdapter;
 import lt.pusnis.multibarcodereader.viewmodels.MainViewModel;
 
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     LinearLayoutManager linearLayoutManager;
     ResultsAdapter resultsAdapter;
-    List<MbrFormats> list = Collections.emptyList();
+    List<MbrResults> list = Collections.emptyList();
+    String device_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setUpRecycleView();
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        mainViewModel.setDevice_id(getDeviceId(this));
+        device_id=getDeviceId(this);
+        mainViewModel.setDevice_id(device_id);
         setUpObserve(mainViewModel);
 
 
