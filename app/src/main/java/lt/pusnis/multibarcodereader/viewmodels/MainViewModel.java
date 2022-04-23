@@ -17,17 +17,18 @@ public class MainViewModel extends ViewModel {
 
     private RemoteRepository remoteRepository;
     private LiveData<List<MbrResults>> allResults;
-    private String device_id;
 
 
-    public MainViewModel() {
-        this.remoteRepository = new RemoteRepository();
+
+//    public MainViewModel() {
+//        this.remoteRepository = new RemoteRepository();
+//        this.allResults = remoteRepository.getAllResults(device_id);
 //        this.allFormats = remoteRepository.getAllFormats();
 //        this.allTypes = remoteRepository.getAllTypes();
-    }
+//    }
 
     public void setDevice_id(String device_id) {
-        this.device_id = device_id;
+        this.remoteRepository = new RemoteRepository();
         this.allResults = remoteRepository.getAllResults(device_id);
     }
 
