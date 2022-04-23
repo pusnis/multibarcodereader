@@ -11,23 +11,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import lt.pusnis.multibarcodereader.R;
 import lt.pusnis.multibarcodereader.model.MbrFormats;
+import lt.pusnis.multibarcodereader.model.MbrResults;
 
-public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHolder> {
-    List<MbrFormats> list;
+public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
+    List<MbrResults> list;
     Context context;
 
-    public FormatsAdapter(List<MbrFormats> list, Context context) {
+    public ResultsAdapter(List<MbrResults> list, Context context) {
         this.list = list;
         this.context = context;
     }
-    public void addList(List<MbrFormats> list){
+    public void addList(List<MbrResults> list){
         this.list = list;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public FormatsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ResultsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 //        return new ViewHolder(LayoutInflater.from(parent.getContext()))
 //                .inflate(R.layout.recyclerview_item,parent,false);
 
@@ -40,9 +41,9 @@ public class FormatsAdapter extends RecyclerView.Adapter<FormatsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.codeFormat.setText(new StringBuilder().append(list.get(position).getId()));
-        holder.codeType.setText(new StringBuilder().append(list.get(position).getId()));
-        holder.codeValue.setText(list.get(position).getDescription());
+        holder.codeFormat.setText(new StringBuilder().append(list.get(position).getCode_format()));
+        holder.codeType.setText(new StringBuilder().append(list.get(position).getCode_type()));
+        holder.codeValue.setText(list.get(position).getResult());
     }
 
     @Override

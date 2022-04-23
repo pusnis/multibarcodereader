@@ -1,8 +1,6 @@
 package lt.pusnis.multibarcodereader;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -24,17 +21,9 @@ import java.util.Collections;
 import java.util.List;
 
 import lt.pusnis.multibarcodereader.common.Constants;
-import lt.pusnis.multibarcodereader.common.network.MbrDataService;
-import lt.pusnis.multibarcodereader.common.network.MbrServiceClient;
-import lt.pusnis.multibarcodereader.common.network.RemoteRepository;
 import lt.pusnis.multibarcodereader.model.MbrFormats;
-import lt.pusnis.multibarcodereader.response.FormatsResponse;
-import lt.pusnis.multibarcodereader.response.TypesResponse;
-import lt.pusnis.multibarcodereader.viewadapters.FormatsAdapter;
+import lt.pusnis.multibarcodereader.viewadapters.ResultsAdapter;
 import lt.pusnis.multibarcodereader.viewmodels.MainViewModel;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     LinearLayoutManager linearLayoutManager;
-    FormatsAdapter formatsAdapter;
+    ResultsAdapter resultsAdapter;
     List<MbrFormats> list = Collections.emptyList();
 
     @Override
@@ -54,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         setUpRecycleView();
 
-
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.setDevice_id(getDeviceId(this));
         setUpObserve(mainViewModel);
 
 
@@ -68,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private void setUpRecycleView() {
         linearLayoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        formatsAdapter = new FormatsAdapter(list, getApplication());
-        recyclerView.setAdapter(formatsAdapter);
+        resultsAdapter = new ResultsAdapter(list, getApplication());
+        recyclerView.setAdapter(resultsAdapter);
     }
 
     private void setUpUi() {
@@ -79,18 +68,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpObserve(MainViewModel viewModel) {
-        viewModel.getAllFormatsObservable().observe(
-                this, mbrFormats -> {
-                    Log.i(Constants.LOG_TAG, "___" + mbrFormats);
-                    formatsAdapter.addList(mbrFormats);
+
+        viewModel.getAllResultsObservable().observe(
+                this, mbrResults -> {
+                    Log.i(Constants.LOG_TAG, "___" + mbrResults);
+                    resultsAdapter.addList(mbrResults);
                     progressBar.setVisibility(View.INVISIBLE);
                 }
         );
 
-
-        viewModel.getAllTypesObservable().observe(
-                this, mbrTypes ->
-                        Log.i(Constants.LOG_TAG, "___" + mbrTypes));
+//                viewModel.getAllFormatsObservable().observe(
+//                this, mbrFormats -> {
+//                    Log.i(Constants.LOG_TAG, "___" + mbrFormats);
+//                    formatsAdapter.addList(mbrFormats);
+//                    progressBar.setVisibility(View.INVISIBLE);
+//                }
+//        );
+//
+//
+//        viewModel.getAllTypesObservable().observe(
+//                this, mbrTypes ->
+//                        Log.i(Constants.LOG_TAG, "___" + mbrTypes));
 
     }
 
