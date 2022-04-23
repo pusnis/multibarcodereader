@@ -1,6 +1,7 @@
 package lt.pusnis.multibarcodereader.model;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class MbrResults {
     @SerializedName("id")
@@ -13,13 +14,19 @@ public class MbrResults {
     private int code_type;
     @SerializedName("result")
     private String result;
-    @SerializedName("createdAt")
-    private String createdAt;
-    @SerializedName("updatedAt")
-    private String updatedAt;
+
+
+
+//    @SerializedName("createdAt")
+//    private String createdAt;
+//    @SerializedName("updatedAt")
+//    private String updatedAt;
 
     // constructor, getters and setters
 
+    public List<String> getFormat_code() {
+        return format_code;
+    }
 
     public int getId() {
         return id;
@@ -61,22 +68,15 @@ public class MbrResults {
         this.result = result;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
 
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
 
     @Override
     public String toString() {
         return "mbrResult [id=" + id + ", "
-                + "device_id=" + device_id
-                + "code_format=" + code_format
-                + "code_type=" + code_type
-                + "result=" + result
-                + "createdAt=" + createdAt
+                + "device_id=" + device_id+ ", "
+                + "code_format=" + code_format+ ", "
+                + "code_type=" + code_type+ ", "
+                + "result=" + result+ ", "
                 + "]";
     }
 }
