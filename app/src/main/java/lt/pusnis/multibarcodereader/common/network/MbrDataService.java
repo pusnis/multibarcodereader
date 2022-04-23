@@ -21,9 +21,6 @@ public interface MbrDataService {
     Call<ResultsResponse> getAllResults(
             @Path("device_id") String device_id
     );
-
-
-
 //    @GET("/api/users")
 //    Call<UsersResponse> getAllUsers(
 //            @Query(value = "page") int page,
