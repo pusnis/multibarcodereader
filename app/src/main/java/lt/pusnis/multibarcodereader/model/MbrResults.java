@@ -19,6 +19,11 @@ public class MbrResults {
     @SerializedName("codetype")
     CodeType  codeType;
 
+    public MbrResults() {
+        this.codeFormat = new CodeFormat();
+        this.codeType = new CodeType();
+    }
+
     public static class CodeFormat{
         String description;
 
@@ -60,8 +65,17 @@ public class MbrResults {
     public CodeFormat getCodeFormat() {
         return codeFormat;
     }
+
     public CodeType getCodeType() {
         return codeType;
+    }
+
+    public int getCode_format() {
+        return code_format;
+    }
+
+    public int getCode_type() {
+        return code_type;
     }
 
     @Override

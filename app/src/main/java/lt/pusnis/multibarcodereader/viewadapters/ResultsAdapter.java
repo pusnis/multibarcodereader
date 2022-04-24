@@ -41,8 +41,10 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.codeFormat.setText(new StringBuilder().append(list.get(position).getCodeFormat().getDescription()));
-        holder.codeType.setText(new StringBuilder().append(list.get(position).getCodeType().getDescription()));
+        String kodoFormatas = list.get(position).getCodeFormat().getDescription();
+        String kodoTipas = list.get(position).getCodeType().getDescription();
+        holder.codeFormat.setText(new StringBuilder().append(kodoFormatas));//getCodeFormat().getDescription()
+        holder.codeType.setText(new StringBuilder().append(kodoTipas));//getCodeType().getDescription()
         holder.codeValue.setText(list.get(position).getResult());
     }
 
