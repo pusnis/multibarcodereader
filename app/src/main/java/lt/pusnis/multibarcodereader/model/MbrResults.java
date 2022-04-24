@@ -19,27 +19,6 @@ public class MbrResults {
     @SerializedName("codetype")
     CodeType  codeType;
 
-    public MbrResults() {
-        this.codeFormat = new CodeFormat();
-        this.codeType = new CodeType();
-    }
-
-    public static class CodeFormat{
-        String description;
-
-        public String getDescription() {
-            return description;
-        }
-    }
-
-    public static class CodeType {
-        String description;
-
-        public String getDescription() {
-            return description;
-        }
-    }
-
     public void setDevice_id(String device_id) {
         this.device_id = device_id;
     }
