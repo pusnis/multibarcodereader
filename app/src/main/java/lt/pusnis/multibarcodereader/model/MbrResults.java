@@ -15,17 +15,25 @@ public class MbrResults {
     @SerializedName("result")
     private String result;
 
+    @SerializedName("codeformat")
+    CodeFormat codeFormat;
+    @SerializedName("codetype")
+    CodeType  codeType;
 
+    public class CodeFormat{
+        String description;
 
-//    @SerializedName("createdAt")
-//    private String createdAt;
-//    @SerializedName("updatedAt")
-//    private String updatedAt;
+        public String getDescription() {
+            return description;
+        }
+    }
 
-    // constructor, getters and setters
+    public class CodeType {
+        String description;
 
-    public List<String> getFormat_code() {
-        return format_code;
+        public String getDescription() {
+            return description;
+        }
     }
 
     public int getId() {
@@ -68,7 +76,12 @@ public class MbrResults {
         this.result = result;
     }
 
-
+    public CodeFormat getCodeFormat() {
+        return codeFormat;
+    }
+    public CodeType getCodeType() {
+        return codeType;
+    }
 
     @Override
     public String toString() {
@@ -77,6 +90,8 @@ public class MbrResults {
                 + "code_format=" + code_format+ ", "
                 + "code_type=" + code_type+ ", "
                 + "result=" + result+ ", "
+                + "codeFormat=" + codeFormat.description+ ", "
+                + "codeType=" + codeType.description+ ", "
                 + "]";
     }
 }

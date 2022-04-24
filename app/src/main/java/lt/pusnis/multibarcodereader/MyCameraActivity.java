@@ -124,6 +124,8 @@ public class MyCameraActivity extends AppCompatActivity {
                         for (Barcode barkodas:barcodes){
                             i++;
                             writeLog("Nuskaitytas kodas: "+i+". " + barkodas.getFormat()+ " / " + barkodas.getValueType() +" : "+barkodas.getDisplayValue());
+//////                  //          @POST("users/new")
+//                      //    Call<User> createUser(@Body User user);
                         }
                     }
                 })
