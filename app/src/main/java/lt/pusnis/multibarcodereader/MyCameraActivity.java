@@ -25,6 +25,9 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.IOException;
 import java.util.List;
 
+import lt.pusnis.multibarcodereader.common.network.RemoteRepository;
+import lt.pusnis.multibarcodereader.model.MbrResults;
+
 public class MyCameraActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_SELECT = 1;
@@ -117,26 +120,37 @@ public class MyCameraActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
                     @Override
                     public void onSuccess(List<Barcode> barcodes) {
-                        writeLog("Nuskaityta kodų: "+barcodes.size());
-                        Toast.makeText(getApplicationContext(),"Nuskaityta kodų: "+barcodes.toArray().length,Toast.LENGTH_LONG).show();
-
-                        int i =0;
-                        for (Barcode barkodas:barcodes){
-                            i++;
-                            writeLog("Nuskaitytas kodas: "+i+". " + barkodas.getFormat()+ " / " + barkodas.getValueType() +" : "+barkodas.getDisplayValue());
-//////                  //          @POST("users/new")
-//                      //    Call<User> createUser(@Body User user);
-                        }
+                        postResults(barcodes);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // Task failed with an exception
-                        // ...
                         writeLog("Klaida : " + e.getMessage());
                     }
                 });
+    }
+
+    private void postResults(List<Barcode> barcodes) {
+        writeLog("Nuskaityta kodų: "+ barcodes.size());
+        Toast.makeText(getApplicationContext(),"Nuskaityta kodų: "+ barcodes.toArray().length,Toast.LENGTH_LONG).show();
+
+        RemoteRepository service = new RemoteRepository();
+
+        int i =0;
+        for (Barcode barkodas: barcodes){
+            i++;
+            writeLog("Nuskaitytas kodas: "+i+". " + barkodas.getFormat()+ " / " + barkodas.getValueType() +" : "+barkodas.getDisplayValue());
+
+            MbrResults mbrResult = new MbrResults();
+
+            mbrResult.setDevice_id();
+            mbrResult.setCode_format(barkodas.getFormat());
+            mbrResult.setCode_type(barkodas.getValueType());
+            mbrResult.setResult(barkodas.getDisplayValue());
+
+            service.postResult(mbrResult);
+        }
     }
 
     private void writeLog(String txt) {

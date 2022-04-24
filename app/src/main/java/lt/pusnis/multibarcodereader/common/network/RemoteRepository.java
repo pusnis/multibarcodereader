@@ -44,6 +44,22 @@ public class RemoteRepository {
         return data;
     }
 
+    public void postResult(MbrResults mbrResult){
+        service.createMbrResult(mbrResult).
+                enqueue(new Callback<MbrResults>() {
+                    @Override
+                    public void onResponse(Call<MbrResults> call, Response<MbrResults> response) {
+                        Log.i(Constants.LOG_TAG,response.message());
+                    }
+
+                    @Override
+                    public void onFailure(Call<MbrResults> call, Throwable t) {
+                        Log.i(Constants.LOG_TAG,"Error on postResult: "+t.getMessage());
+                    }
+                });
+
+    }
+
 //    public LiveData<List<MbrFormats>> getFormatList() {
 //
 //        MutableLiveData<List<MbrFormats>> data = new MutableLiveData<>();

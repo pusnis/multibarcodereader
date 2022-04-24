@@ -27,8 +27,12 @@ public class MainViewModel extends ViewModel {
 //        this.allTypes = remoteRepository.getAllTypes();
 //    }
 
-    public void setDevice_id(String device_id) {
+
+    public MainViewModel(RemoteRepository remoteRepository) {
         this.remoteRepository = new RemoteRepository();
+    }
+
+    public void setDevice_id(String device_id) {
         this.allResults = remoteRepository.getAllResults(device_id);
     }
 
