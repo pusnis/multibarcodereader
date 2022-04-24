@@ -25,6 +25,7 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.IOException;
 import java.util.List;
 
+import lt.pusnis.multibarcodereader.common.Constants;
 import lt.pusnis.multibarcodereader.common.network.RemoteRepository;
 import lt.pusnis.multibarcodereader.model.MbrResults;
 
@@ -35,11 +36,15 @@ public class MyCameraActivity extends AppCompatActivity {
     private ImageView imageView;
     private InputImage image;
     private Uri selectedImage;
+    String device_id;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        device_id=getIntent().getExtras().getString(Constants.EXTRA_KEY_USER_ID);
+        Log.i(Constants.LOG_TAG,"MyCameraActivity get deviec_id: "+device_id);
+
         setContentView(R.layout.activity_my_camera);
 
 
@@ -144,7 +149,7 @@ public class MyCameraActivity extends AppCompatActivity {
 
             MbrResults mbrResult = new MbrResults();
 
-            mbrResult.setDevice_id();
+            mbrResult.setDevice_id(device_id);
             mbrResult.setCode_format(barkodas.getFormat());
             mbrResult.setCode_type(barkodas.getValueType());
             mbrResult.setResult(barkodas.getDisplayValue());

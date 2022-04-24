@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(MainActivity.this, MyCameraActivity.class);
+                intent.putExtra(Constants.EXTRA_KEY_USER_ID,device_id);
                 startActivity(intent);
 
             }
