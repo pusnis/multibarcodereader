@@ -1,7 +1,6 @@
 package lt.pusnis.multibarcodereader.model;
 
 import com.google.gson.annotations.SerializedName;
-import java.util.List;
 
 public class MbrResults {
     @SerializedName("id")
@@ -20,7 +19,7 @@ public class MbrResults {
     @SerializedName("codetype")
     CodeType  codeType;
 
-    public class CodeFormat{
+    public static class CodeFormat{
         String description;
 
         public String getDescription() {
@@ -28,41 +27,23 @@ public class MbrResults {
         }
     }
 
-    public class CodeType {
+    public static class CodeType {
         String description;
 
         public String getDescription() {
             return description;
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDevice_id() {
-        return device_id;
     }
 
     public void setDevice_id(String device_id) {
         this.device_id = device_id;
     }
 
-    public int getCode_format() {
-        return code_format;
-    }
 
     public void setCode_format(int code_format) {
         this.code_format = code_format;
     }
 
-    public int getCode_type() {
-        return code_type;
-    }
 
     public void setCode_type(int code_type) {
         this.code_type = code_type;

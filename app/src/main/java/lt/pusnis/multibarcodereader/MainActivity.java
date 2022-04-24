@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setUpBtnTakePhoto();
 
         Toast.makeText(this, getDeviceId(this), Toast.LENGTH_LONG).show();
-        Log.i(Constants.LOG_TAG, "Pabaiga.");
+//        Log.i(Constants.LOG_TAG, "Pabaiga.");
     }
 
     private void setUpRecycleView() {
@@ -69,25 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel.getAllResultsObservable().observe(
                 this, mbrResults -> {
-                    Log.i(Constants.LOG_TAG, "___" + mbrResults);
+//                    Log.i(Constants.LOG_TAG, "___" + mbrResults);
                     resultsAdapter.addList(mbrResults);
                     progressBar.setVisibility(View.INVISIBLE);
                 }
         );
-
-//                viewModel.getAllFormatsObservable().observe(
-//                this, mbrFormats -> {
-//                    Log.i(Constants.LOG_TAG, "___" + mbrFormats);
-//                    formatsAdapter.addList(mbrFormats);
-//                    progressBar.setVisibility(View.INVISIBLE);
-//                }
-//        );
-//
-//
-//        viewModel.getAllTypesObservable().observe(
-//                this, mbrTypes ->
-//                        Log.i(Constants.LOG_TAG, "___" + mbrTypes));
-
     }
 
 

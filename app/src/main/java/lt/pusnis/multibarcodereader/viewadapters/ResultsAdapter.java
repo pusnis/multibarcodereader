@@ -1,5 +1,6 @@
 package lt.pusnis.multibarcodereader.viewadapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import lt.pusnis.multibarcodereader.R;
-import lt.pusnis.multibarcodereader.model.MbrFormats;
+
 import lt.pusnis.multibarcodereader.model.MbrResults;
 
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
@@ -21,6 +22,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
         this.list = list;
         this.context = context;
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void addList(List<MbrResults> list){
         this.list = list;
         notifyDataSetChanged();
@@ -29,8 +31,6 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     @NonNull
     @Override
     public ResultsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        return new ViewHolder(LayoutInflater.from(parent.getContext()))
-//                .inflate(R.layout.recyclerview_item,parent,false);
 
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -51,7 +51,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
         return list.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView codeFormat;
         TextView codeType;

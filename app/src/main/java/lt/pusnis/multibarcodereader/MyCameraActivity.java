@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -35,7 +34,6 @@ public class MyCameraActivity extends AppCompatActivity {
     private static final String TAG = "Capture_Save_Show_Image";
     private ImageView imageView;
     private InputImage image;
-    private Uri selectedImage;
     String device_id;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
@@ -61,30 +59,22 @@ public class MyCameraActivity extends AppCompatActivity {
 
     private void setRedBarcodesButton() {
         Button readButton = (Button) this.findViewById(R.id.button1);
-        readButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getBarCodes();
-            }
-        });
+        readButton.setOnClickListener(v -> getBarCodes());
     }
 
 
     private void setSelectButton() {
         Button captureButton = (Button) this.findViewById(R.id.button2);
-        captureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ///storage/self/primary/Android/data/lt.pusnis.multibarcodereader/files/Pictures/JPEG_20220413_195912_1042563541446792019.jpg
-                writeLog("Select button clicked");
+        captureButton.setOnClickListener(v -> {
+            ///storage/self/primary/Android/data/lt.pusnis.multibarcodereader/files/Pictures/JPEG_20220413_195912_1042563541446792019.jpg
+            writeLog("Select button clicked");
 
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
 
-                startActivityForResult(intent, REQUEST_IMAGE_SELECT );
-                writeLog("Select picture intent opened.");
-            }
+            startActivityForResult(intent, REQUEST_IMAGE_SELECT );
+            writeLog("Select picture intent opened.");
         });
     }
 
@@ -94,7 +84,7 @@ public class MyCameraActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         writeLog("Intent : "+ requestCode + " resultCode: "+resultCode ) ;
         if (  requestCode == REQUEST_IMAGE_SELECT && resultCode == RESULT_OK) {
-            selectedImage = data.getData();
+            Uri selectedImage = data.getData();
 
             writeLog(requestCode + " selectedImage : "+ selectedImage);
             try {
