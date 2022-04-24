@@ -66,4 +66,6 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
             codeValue = itemView.findViewById(R.id.codeValue);
         }
     }
+
+
 }

@@ -9,8 +9,9 @@ import lt.pusnis.multibarcodereader.model.MbrResults;
 
 public class MainViewModel extends ViewModel {
 
-    private final RemoteRepository remoteRepository;
     private LiveData<List<MbrResults>> allResults;
+    private final RemoteRepository remoteRepository;
+
 
     public MainViewModel() {
         this.remoteRepository = new RemoteRepository();
@@ -22,6 +23,10 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<List<MbrResults>> getAllResultsObservable() {
         return allResults;
+    }
+
+    public void getAllResults(String device_id){
+        remoteRepository.getAllResults(device_id);
     }
 
 }

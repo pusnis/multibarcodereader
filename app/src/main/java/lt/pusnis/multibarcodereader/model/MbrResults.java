@@ -19,6 +19,22 @@ public class MbrResults {
     @SerializedName("codetype")
     CodeType  codeType;
 
+    public class CodeFormat extends MbrResults{
+        String description;
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
+    public class CodeType extends MbrResults{
+        String description;
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
     public void setDevice_id(String device_id) {
         this.device_id = device_id;
     }

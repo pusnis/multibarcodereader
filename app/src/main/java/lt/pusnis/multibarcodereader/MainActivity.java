@@ -17,6 +17,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.Collections;
 import java.util.List;
 import lt.pusnis.multibarcodereader.common.Constants;
+import lt.pusnis.multibarcodereader.common.network.RemoteRepository;
 import lt.pusnis.multibarcodereader.model.MbrResults;
 import lt.pusnis.multibarcodereader.viewadapters.ResultsAdapter;
 import lt.pusnis.multibarcodereader.viewmodels.MainViewModel;
@@ -96,5 +97,20 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("all")
     public static String getDeviceId(Context context) {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    @Override
+    protected void onRestart() {
+//        Log.i(Constants.LOG_TAG,"MainActivity onRestart.");
+        super.onRestart();
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+//        Log.i(Constants.LOG_TAG,"MainActivity onResume.");
+        super.onResume();
+        mainViewModel.getAllResults(device_id);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }

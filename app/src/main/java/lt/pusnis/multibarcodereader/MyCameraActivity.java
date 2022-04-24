@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class MyCameraActivity extends AppCompatActivity {
     private InputImage image;
     String device_id;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    Button readButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,8 @@ public class MyCameraActivity extends AppCompatActivity {
     }
 
     private void setRedBarcodesButton() {
-        Button readButton = (Button) this.findViewById(R.id.button1);
+        readButton = (Button) this.findViewById(R.id.button1);
+        readButton.setVisibility(View.INVISIBLE);
         readButton.setOnClickListener(v -> getBarCodes());
     }
 
@@ -91,8 +94,11 @@ public class MyCameraActivity extends AppCompatActivity {
                 image = InputImage.fromFilePath(getApplicationContext(), selectedImage);
                 imageView.setImageURI(selectedImage);
 
+                readButton.setVisibility(View.VISIBLE);
+
             } catch (IOException e) {
                 e.printStackTrace();
+                readButton.setVisibility(View.INVISIBLE);
             }
             writeLog("onActivityResult() - finish. ");
 
@@ -116,6 +122,7 @@ public class MyCameraActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(List<Barcode> barcodes) {
                         postResults(barcodes);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
