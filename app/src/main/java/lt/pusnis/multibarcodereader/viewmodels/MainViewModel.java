@@ -28,7 +28,7 @@ public class MainViewModel extends ViewModel {
 //    }
 
 
-    public MainViewModel(RemoteRepository remoteRepository) {
+    public MainViewModel() {
         this.remoteRepository = new RemoteRepository();
     }
 

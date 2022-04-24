@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.google.android.material.button.MaterialButton;
-
 import java.util.Collections;
 import java.util.List;
-
 import lt.pusnis.multibarcodereader.common.Constants;
-import lt.pusnis.multibarcodereader.model.MbrFormats;
 import lt.pusnis.multibarcodereader.model.MbrResults;
 import lt.pusnis.multibarcodereader.viewadapters.ResultsAdapter;
 import lt.pusnis.multibarcodereader.viewmodels.MainViewModel;
