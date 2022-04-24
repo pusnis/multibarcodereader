@@ -14,7 +14,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+
+        android:background="#B2EBF2">
 
         <TextView
             android:id="@+id/labeLormat"
@@ -45,6 +47,7 @@
             android:text="code Type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/codeType"
             android:layout_width="wrap_content"

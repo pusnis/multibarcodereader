@@ -1,5 +1,6 @@
 package lt.pusnis.multibarcodereader;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -111,6 +112,5 @@ public class MainActivity extends AppCompatActivity {
 //        Log.i(Constants.LOG_TAG,"MainActivity onResume.");
         super.onResume();
         mainViewModel.getAllResults(device_id);
-        progressBar.setVisibility(View.INVISIBLE);
     }
 }
