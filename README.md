@@ -1,6 +1,6 @@
 # multibarcodereader
 
-Projekto tikslas nuskaityti vaizdą su vienu arba keliais barkodais, gautus kodus surinkti į sąrašą, pasirinktus kodus perduoti REST PAI metodu į db.
+Projekto tikslas nuskaityti vaizdą su vienu arba keliais barkodais, gautus kodus surinkti į sąrašą, pasirinktus kodus perduoti REST API metodu į db.
 
 Etapai
 
